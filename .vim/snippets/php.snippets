@@ -1,0 +1,262 @@
+snippet php
+	<?php
+	${1}
+	?>
+snippet ec
+	echo "${1:string}"${2};
+snippet inc
+	include '${1:file}';${2}
+snippet inc1
+	include_once '${1:file}';${2}
+snippet req
+	require '${1:file}';${2}
+snippet req1
+	require_once '${1:file}';${2}
+# $GLOBALS['...']
+snippet globals
+	$GLOBALS['${1:variable}']${2: = }${3:something}${4:;}${5}
+snippet $_ COOKIE['...']
+	$_COOKIE['${1:variable}']${2}
+snippet $_ ENV['...']
+	$_ENV['${1:variable}']${2}
+snippet $_ FILES['...']
+	$_FILES['${1:variable}']${2}
+snippet $_ Get['...']
+	$_GET['${1:variable}']${2}
+snippet $_ POST['...']
+	$_POST['${1:variable}']${2}
+snippet $_ REQUEST['...']
+	$_REQUEST['${1:variable}']${2}
+snippet $_ SERVER['...']
+	$_SERVER['${1:variable}']${2}
+snippet $_ SESSION['...']
+	$_SESSION['${1:variable}']${2}
+# Start Docblock
+snippet /*
+	/**
+	 * ${1}
+	 **/
+# Class - post doc
+snippet doc_cp
+	/**
+	 * ${1:undocumented class}
+	 *
+	 * @package ${2:default}
+	 * @author ${3:`g:snips_author`}
+	**/${4}
+# Class Variable - post doc
+snippet doc_vp
+	/**
+	 * ${1:undocumented class variable}
+	 *
+	 * @var ${2:string}
+	 **/${3}
+# Class Variable
+snippet doc_v
+	/**
+	 * ${3:undocumented class variable}
+	 *
+	 * @var ${4:string}
+	 **/
+	${1:var} $${2};${5}
+# Class
+snippet doc_c
+	/**
+	 * ${3:undocumented class}
+	 *
+	 * @packaged ${4:default}
+	 * @author ${5:`g:snips_author`}
+	 **/
+	${1:}class ${2:}
+	{${6}
+	} // END $1class $2
+# Constant Definition - post doc
+snippet doc_dp
+	/**
+	 * ${1:undocumented constant}
+	 **/${2}
+# Constant Definition
+snippet doc_d
+	/**
+	 * ${3:undocumented constant}
+	 **/
+	define(${1}, ${2});${4}
+# Function - post doc
+snippet doc_fp
+	/**
+	 * ${1:undocumented function}
+	 *
+	 * @return ${2:void}
+	 * @author ${3:`g:snips_author`}
+	**/${4}
+# Function signature
+snippet doc_s
+	/**
+	 * ${4:undocumented function}
+	 *
+	 * @return ${5:void}
+	 * @author ${6:`g:snips_author`}
+	**/
+	${1}function ${2}(${3});${7}
+# Function
+snippet docf
+	/**
+	 * ${4:undocumented function}
+	 *
+	 * @return ${5:void}
+	 * @author ${6:`g:snips_author`}
+	 **/
+	${1:public} function ${2:FunkyFunc} ( ${3} ) {
+		${7://code...}
+	}
+# Header
+snippet doc_h
+	/**
+	 * ${1}
+	 *
+	 * @author ${2:`g:snips_author`}
+	 * @version ${3:$Id$}
+	 * @copyright ${4:$2}, `strftime('%d %B, %Y')`
+	 * @package ${5:default}
+	 **/
+	
+	/**
+	 * Define DocBlock
+	 *//
+# Interface
+snippet doc_i
+	/**
+	 * ${2:undocumented class}
+	 *
+	 * @package ${3:default}
+	 * @author ${4:`g:snips_author`}
+	 **/
+	interface ${1:}
+	{${5}
+	} // END interface $1
+# class ...
+snippet class
+	/**
+	 * ${1}
+	 * @author Lance Erickson
+	 **/
+	class ${2:ClassName} {
+		${3}
+		function ${4:__construct}(${5:argument}) {
+			${6:// code...}
+		}
+	}
+# define(...)
+snippet def
+	define('${1}'${2});${3}
+# defined(...)
+snippet def?
+	${1}defined('${2}')${3}
+snippet wh
+	while (${1:/* condition */}) {
+		${2:// code...}
+	}
+# do ... while
+snippet do
+	do {
+		${2:// code... }
+	} while (${1:/* condition */});
+snippet if
+	if ( ${1:/* condition */} ) {
+		${2:// code...}
+	}
+snippet ife
+	if ( ${1:/* condition */} ) {
+		${2:// code...}
+	}
+ 	else {
+		${3:// code...}
+	}
+	${4}
+snippet else
+	else {
+		${1:// code...}
+	}
+snippet elseif
+	elseif (${1:/* condition */}) {
+		${2:// code...}
+	}
+# Tertiary conditional
+snippet t
+	$${1:retVal} = (${2:condition}) ? ${3:a} : ${4:b};${5}
+snippet switch
+	switch ($${1:variable}) {
+		case '${2:value}':
+			${3:// code...}
+			break;
+		${5}
+		default:
+			${4:// code...}
+			break;
+	}
+snippet case
+	case '${1:value}':
+		${2:// code...}
+		break;${3}
+snippet for
+	for ($${2:i} = 0; $$2 < ${1:count}; $$2${3:++}) {
+		${4: // code...}
+	}
+snippet foreach
+	foreach ( $${1:variable} as $${2:key} ) {
+		${3:// code...}
+	}
+snippet fun
+	${1:public }function ${2:FunctionName} (${3}) {
+		${4:// code...}
+	}
+# $... = array (...)
+snippet array
+	$${1:arrayName} = array('${2}' => ${3});${4}
+snippet log
+	$GLOBALS['logger']->${1:log_export}( ${2: ,} ${3: CW_LOG_DEV,} "lance:${4:wuz here}" );  ${5: //LTE}
+snippet th
+	$this->${1}
+snippet tcase
+	class ${1:Classname}TestCase extends UnitTestCase {
+		
+		${5:instance variables}
+
+		//  This is run once per test case (function in this file)
+		public function setUp ( ) {
+			${2: // code...}
+		}
+
+		public function tearDown ( ) {
+			${3: // code...}
+		}
+
+		public function skip ( ) {
+			${4: // code...}
+		}
+
+snippet asst
+	$this->assertTrue( ${1:statement1} ${2:op} ${3:statement2} );
+snippet assf
+	$this->assertFalse( ${1:statement1} ${2:op} ${3:statement2} );
+snippet asse
+	$this->assertEqual( ${1:thing1} , ${2:thing2} ); 
+snippet check
+	$GLOBALS['logger']->set_checkpoint( ${1:msg} ); //LTE
+snippet uadt
+	//User action audit
+	$target_info  =  array( 
+		'target_name'  =>  ${1:name},
+		'target_id'    =>  ${2:id},
+		'target_type'  =>  ${3:type}
+	);
+	$GLOBALS['logger']->log_user_action( '${4:action}', $target_info, ${5:$additional_info} );
+snippet uaa
+	//User action audit
+	$ua_action  =  ${1};
+	$ua_type    =  ${2};
+	$GLOBALS['logger']->log_user_action( $ua_action, $ua_type, $ua_details );
+snippet bckt
+	$GLOBALS['logger']->log_backtrace( "lance:${1:Backtrace}", CW_LOG_DEV );  //LTE
+snippet gl
+	$GLOBALS['${1:global}'] ${2}
