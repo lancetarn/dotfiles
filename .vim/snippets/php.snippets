@@ -213,8 +213,10 @@ snippet fun
 # $... = array (...)
 snippet array
 	$${1:arrayName} = array('${2}' => ${3});${4}
+snippet loge
+	$GLOBALS['logger']->log_export( ${1: ,} ${2:CW_LOG_DEV,} "lance:${3:wuz here}" ); ${4://LTE}
 snippet log
-	$GLOBALS['logger']->${1:log_export}( ${2: ,} ${3: CW_LOG_DEV,} "lance:${4:wuz here}" );  ${5: //LTE}
+	$GLOBALS['logger']->log( "lance:${1:Hello}", ${2:CW_LOG_DEV} ); ${3://LTE}
 snippet th
 	$this->${1}
 snippet tcase
@@ -240,7 +242,7 @@ snippet asst
 snippet assf
 	$this->assertFalse( ${1:statement1} ${2:op} ${3:statement2} );
 snippet asse
-	$this->assertEqual( ${1:thing1} , ${2:thing2} ); 
+	$this->assertEqual( ${1:thing1}, ${2:thing2} );
 snippet check
 	$GLOBALS['logger']->set_checkpoint( ${1:msg} ); //LTE
 snippet uadt
@@ -260,3 +262,8 @@ snippet bckt
 	$GLOBALS['logger']->log_backtrace( "lance:${1:Backtrace}", CW_LOG_DEV );  //LTE
 snippet gl
 	$GLOBALS['${1:global}'] ${2}
+snippet pushdb
+	$GLOBALS['logger']->pushor_level( CW_LOG_DB ); //LTE
+snippet popdb
+	$GLOBALS['logger']->pop_level( ); //LTE
+

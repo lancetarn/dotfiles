@@ -41,11 +41,11 @@ noremap <F7> :set nu!<CR>:set nu?<CR>
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
 " Vertical split nav
-map <C-l> <C-w>l
-map <C-h> <C-w>h
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
 " Tab nav, C-n/m
-map <C-m> :bn<CR>
-map <C-n> :bp<CR>
+noremap <C-m> :bn<CR>
+noremap <C-n> :bp<CR>
 " Quick escap = ff
 inoremap vv <ESC>
 " Quickly edit/reload the .vimrc file
@@ -95,6 +95,17 @@ set listchars=tab:.\ ,trail:~
 " Some color preferences
 hi NonText ctermfg=DarkGray
 
+" Folding help
+set foldmethod=syntax
+set foldlevelstart=1
+
+let perl_fold=1               " Perl
+let php_folding=3             " PHP
+let r_syntax_folding=1        " R
+let ruby_fold=1               " Ruby
+let sh_fold_enabled=1         " sh
+let vimsyn_folding='af'       " Vim script
+let xml_syntax_folding=1      " XML
 
 " Some alignment jiggery
 source ~/.vim/plugin/AlignPlugin.vim
@@ -115,8 +126,12 @@ if has("autocmd")
 	augroup vimrcEx
 		au!
 
+		autocmd FileType javascript call JavaScriptFold()
 		" For all text files set 'textwidth' to 78 characters.
 		autocmd FileType text setlocal textwidth=78
+
+        " Expand tabs for python
+        autocmd FileType python setlocal et
 
 		" Apache files in shared checkout AMMs
 		autocmd BufNewFile,BufRead */conf/httpd/*.conf* set syntax=apache
