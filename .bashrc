@@ -13,8 +13,8 @@ HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -31,6 +31,7 @@ fi
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-256color) color_prompt=yes;;
+    screen-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -65,6 +66,13 @@ xterm*|rxvt*)
     ;;
 esac
 
+# Make sure SSH_AUTH_SOCK is consistent for tmux
+if [ ! -z "$SSH_AUTH_SOCK" -a "$SSH_AUTH_SOCK" != "$HOME/.ssh/agent_sock" ] ; then
+    unlink "$HOME/.ssh/agent_sock" 2>/dev/null
+    ln -s "$SSH_AUTH_SOCK" "$HOME/.ssh/agent_sock"
+    export SSH_AUTH_SOCK="$HOME/.ssh/agent_sock"
+fi
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -91,6 +99,11 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# Bash functions.
+# Define custom bash functions here.
+if [ -f ~/.bash_functions ]; then
+    . ~/.bash_functions
+fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).

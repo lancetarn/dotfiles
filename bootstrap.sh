@@ -3,7 +3,8 @@
 # From https://github.com/mathiasbynens/dotfiles/blob/master/bootstrap.sh
 cd "$(dirname "${BASH_SOURCE}")"
 chmod 0755 .
-git submodule update --init --recursive
+git submodule init
+git submodule update
 function doIt() {
 	rsync --exclude ".gitmodules" --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" --exclude "README.md" -av . ~
 }
