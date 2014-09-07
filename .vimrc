@@ -28,13 +28,13 @@ set shiftwidth=4
 set noexpandtab
 set background=dark
 "set background=light
-:colorscheme ir_black
+:colorscheme molokai
 ":colorscheme solarized
 :filetype plugin on
 " map CTRL-e to EOL (insert)
 imap <C-e> <esc>$i<right>
 " Open new tab with Ctrl-o
-map <c-o> :tabe<cr>
+noremap <c-o> :tabe<cr>
 " Toggle line numbering
 noremap <F7> :set nu!<CR>:set nu?<CR>
 " Horizontal split nav
@@ -46,7 +46,7 @@ noremap <C-h> <C-w>h
 " Tab nav, C-n/m
 noremap <C-m> :bn<CR>
 noremap <C-n> :bp<CR>
-" Quick escap = ff
+" Quick escap = vv
 inoremap vv <ESC>
 " Quickly edit/reload the .vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -74,6 +74,7 @@ nmap <c-\> :TagbarToggle<CR>
 let g:tagbar_sort = 0
 let g:tagbar_foldlevel = 0
 let g:tagbar_width = 40
+let g:tagbar_ctags_bin = 'ctags-modded'
 
 "Keep CtrlP using amm root
 let g:ctrlp_working_path_mode = 'rw'
