@@ -80,6 +80,9 @@ let g:tagbar_ctags_bin = 'ctags-modded'
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_clear_cache_on_exit = 0
 
+"Clipper - send to Mac clipboard
+noremap <leader>y :call system('nc localhost 21212', @0)<CR>
+
 " Stolen from Clockwork blog
 :command SvnDiff :vert diffsplit %:h/.svn/text-base/%:t.svn-base
 
@@ -127,7 +130,6 @@ if has("autocmd")
 	augroup vimrcEx
 		au!
 
-		autocmd FileType javascript call JavaScriptFold()
 		" For all text files set 'textwidth' to 78 characters.
 		autocmd FileType text setlocal textwidth=78
 
