@@ -59,16 +59,18 @@ let mapleader = ","   " custom commands start with ,
 
 " Hopefully gives me arrow keys again when editing sql files.
 let g:omni_sql_no_default_maps = 1
-"80 column helper - little over the top for now.
-"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-"match OverLength /\%>80v.\+/
+
+" for airline
+set laststatus=2
 
 "Syntastic
 let g:syntastic_php_checkers=['php', 'phpcs']
 let g:syntastic_php_phpcs_args="--standard=/home/lance/ClockworkStandard/Clockwork --report=csv"
 let g:syntastic_python_checkers=['python', 'flake8']
+
 "SnipMate
 let g:snips_author = 'Lance Erickson <lance@clockwork.net>'
+
 "Tagbar
 nmap <c-\> :TagbarToggle<CR>
 let g:tagbar_sort = 0
@@ -79,6 +81,9 @@ let g:tagbar_ctags_bin = 'ctags-modded'
 "Keep CtrlP using amm root
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_clear_cache_on_exit = 0
+
+"NERDtree
+map <C-q> :NERDTreeToggle<CR>
 
 "Clipper - send to Mac clipboard
 noremap <leader>y :call system('nc localhost 21212', @0)<CR>
@@ -103,18 +108,9 @@ hi NonText ctermfg=DarkGray
 set foldmethod=syntax
 set foldlevelstart=1
 
-let perl_fold=1               " Perl
-let php_folding=3             " PHP
-let r_syntax_folding=1        " R
-let ruby_fold=1               " Ruby
-let sh_fold_enabled=1         " sh
-let vimsyn_folding='af'       " Vim script
-let xml_syntax_folding=1      " XML
-
 " Some alignment jiggery
 source ~/.vim/plugin/AlignPlugin.vim
 source ~/.vim/plugin/AlignMapsPlugin.vim
-call Align#AlignCtrl( 'Wp2P2l:','=>','=' )
 map <C-a> vip:Align<cr>
 
 " Only do this part when compiled with support for autocommands.
@@ -133,8 +129,11 @@ if has("autocmd")
 		" For all text files set 'textwidth' to 78 characters.
 		autocmd FileType text setlocal textwidth=78
 
-        " Expand tabs for python
-        autocmd FileType python setlocal et
+		" AMM alignment style
+		autocmd FileType php call Align#AlignCtrl( 'Wp2P2l:','=>','=' )
+
+    " Expand tabs for python
+    autocmd FileType python setlocal et
 
 		" Apache files in shared checkout AMMs
 		autocmd BufNewFile,BufRead */conf/httpd/*.conf* set syntax=apache
@@ -147,13 +146,8 @@ if has("autocmd")
 					\   exe "normal! g`\"" |
 					\ endif
 
-		"Run PHP syntax check on file write - switching to Syntastic
-		"autocmd BufWritePost *.php !php -l %
-
 	augroup END
 
 else
 	set autoindent "always on
 endif
-
-"Commands to run test for current file
