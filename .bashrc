@@ -110,3 +110,10 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
+if [ -r ~/.private ]; then
+   source ~/.private
+fi
+
+export NVM_DIR="/Users/lanceerickson/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

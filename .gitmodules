@@ -37,3 +37,6 @@
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
+[submodule ".vim/bundle/elm-vim"]
+	path = .vim/bundle/elm-vim
+	url = https://github.com/ElmCast/elm-vim.git

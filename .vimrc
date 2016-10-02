@@ -25,10 +25,10 @@ set tags=./tags/all   " use exuberant ctags for completion, lookup
 set gdefault
 set ts=4
 set shiftwidth=4
-set noexpandtab
+set expandtab
 set background=dark
 "set background=light
-:colorscheme molokai
+:colorscheme Tomorrow-Night
 ":colorscheme solarized
 :filetype plugin on
 " map CTRL-e to EOL (insert)
@@ -76,7 +76,7 @@ nmap <c-\> :TagbarToggle<CR>
 let g:tagbar_sort = 0
 let g:tagbar_foldlevel = 0
 let g:tagbar_width = 40
-let g:tagbar_ctags_bin = 'ctags-modded'
+let g:tagbar_ctags_bin = 'ctags'
 
 "Keep CtrlP using amm root
 let g:ctrlp_working_path_mode = 'rw'
@@ -104,9 +104,6 @@ set listchars=tab:.\ ,trail:~
 " Some color preferences
 hi NonText ctermfg=DarkGray
 
-" Folding help
-set foldmethod=syntax
-set foldlevelstart=1
 
 " Some alignment jiggery
 source ~/.vim/plugin/AlignPlugin.vim
@@ -135,16 +132,26 @@ if has("autocmd")
     " Expand tabs for python
     autocmd FileType python setlocal et
 
-		" Apache files in shared checkout AMMs
-		autocmd BufNewFile,BufRead */conf/httpd/*.conf* set syntax=apache
+    " Elm
+    autocmd FileType elm setlocal et ts=2 sw=2
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
 
-		" When editing a file, always jump to the last known cursor position.
-		" Don't do it when the position is invalid or when inside an event handler
-		" (happens when dropping a file on gvim).
-		autocmd BufReadPost *
-					\ if line("'\"") > 0 && line("'\"") <= line("$") |
-					\   exe "normal! g`\"" |
-					\ endif
+    let g:elm_syntastic_show_warnings = 1
+
+    " Js
+    autocmd FileType js setlocal et ts=2 sw=2
+
+    " Apache files in shared checkout AMMs
+    autocmd BufNewFile,BufRead */conf/httpd/*.conf* set syntax=apache
+
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event handler
+    " (happens when dropping a file on gvim).
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal! g`\"" |
+                \ endif
 
 	augroup END
 
