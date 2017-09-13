@@ -28,7 +28,7 @@ set shiftwidth=4
 set noexpandtab
 set background=dark
 "set background=light
-:colorscheme molokai
+:colorscheme Tomorrow-Night-Eighties
 ":colorscheme solarized
 :filetype plugin on
 " map CTRL-e to EOL (insert)
@@ -65,11 +65,11 @@ set laststatus=2
 
 "Syntastic
 let g:syntastic_php_checkers=['php', 'phpcs']
-let g:syntastic_php_phpcs_args="--standard=/home/lance/ClockworkStandard/Clockwork --report=csv"
+let g:syntastic_php_phpcs_args="--standard=/home/lance/ClockworkStandard/Clockwork/ruleset.xml --report=csv"
 let g:syntastic_python_checkers=['python', 'flake8']
 
 "SnipMate
-let g:snips_author = 'Lance Erickson <lance@clockwork.net>'
+let g:snips_author = 'Lance Erickson <lance@clockwork.com>'
 
 "Tagbar
 nmap <c-\> :TagbarToggle<CR>
@@ -81,9 +81,10 @@ let g:tagbar_ctags_bin = 'ctags-modded'
 "Keep CtrlP using amm root
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_max_files = 0
 
 "NERDtree
-map <C-q> :NERDTreeToggle<CR>
+nnoremap <leader>f :NERDTreeToggle<CR>
 
 "Clipper - send to Mac clipboard
 noremap <leader>y :call system('nc localhost 21212', @0)<CR>

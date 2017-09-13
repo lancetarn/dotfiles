@@ -110,3 +110,7 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
+export HISTTIMEFORMAT='%F %T '
+# Keep history sync'd between sessions
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
