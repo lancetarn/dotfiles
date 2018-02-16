@@ -31,6 +31,8 @@ set background=dark
 :colorscheme Tomorrow-Night
 ":colorscheme solarized
 :filetype plugin on
+" custom commands start with ,
+let mapleader = ","
 " map CTRL-e to EOL (insert)
 imap <C-e> <esc>$i<right>
 " Open new tab with Ctrl-o
@@ -55,7 +57,10 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nnoremap <tab> %
 vnoremap <tab> %
 
-let mapleader = ","   " custom commands start with ,
+" Ack usage
+let g:ackprg = 'ag --vimgrep'
+nmap <leader>a :Ack!
+nmap <leader>q :cclose<CR>
 
 " Hopefully gives me arrow keys again when editing sql files.
 let g:omni_sql_no_default_maps = 1
@@ -64,12 +69,12 @@ let g:omni_sql_no_default_maps = 1
 set laststatus=2
 
 "Syntastic
-let g:syntastic_php_checkers=['php', 'phpcs']
-let g:syntastic_php_phpcs_args="--standard=/home/lance/ClockworkStandard/Clockwork --report=csv"
-let g:syntastic_python_checkers=['python', 'flake8']
+let g:syntastic_php_checkers=['php']
+"let g:syntastic_python_checkers=['python3', 'flake8']
+let g:syntastic_python_checkers=['python3']
 
 "SnipMate
-let g:snips_author = 'Lance Erickson <lance@clockwork.net>'
+let g:snips_author = 'Lance Erickson <lancetarn@gmail.com>'
 
 "Tagbar
 nmap <c-\> :TagbarToggle<CR>
@@ -78,7 +83,7 @@ let g:tagbar_foldlevel = 0
 let g:tagbar_width = 40
 let g:tagbar_ctags_bin = 'ctags'
 
-"Keep CtrlP using amm root
+"Keep CtrlP using vcs root
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_clear_cache_on_exit = 0
 
@@ -127,32 +132,30 @@ if has("autocmd")
 		autocmd FileType text setlocal textwidth=78
 
 		" AMM alignment style
-		autocmd FileType php call Align#AlignCtrl( 'Wp2P2l:','=>','=' )
+		" autocmd FileType php call Align#AlignCtrl( 'Wp2P2l:','=>','=' )
 
-    " Expand tabs for python
-    autocmd FileType python setlocal et
 
-    " Elm
-    autocmd FileType elm setlocal et ts=2 sw=2
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 1
+      " Elm
+      autocmd FileType elm setlocal et ts=2 sw=2
+      let g:syntastic_always_populate_loc_list = 1
+      let g:syntastic_auto_loc_list = 1
 
-    let g:elm_syntastic_show_warnings = 1
+      let g:elm_syntastic_show_warnings = 1
 
-    " Js
-    autocmd FileType js setlocal et ts=2 sw=2
+      " Js
+      autocmd FileType js setlocal et ts=2 sw=2
 
-    " Apache files in shared checkout AMMs
-    autocmd BufNewFile,BufRead */conf/httpd/*.conf* set syntax=apache
+      " Apache files in shared checkout AMMs
+      autocmd BufNewFile,BufRead */conf/httpd/*.conf* set syntax=apache
 
-    " When editing a file, always jump to the last known cursor position.
-    " Don't do it when the position is invalid or when inside an event handler
-    " (happens when dropping a file on gvim).
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal! g`\"" |
-                \ endif
-
+      " When editing a file, always jump to the last known cursor position.
+      " Don't do it when the position is invalid or when inside an event handler
+      " (happens when dropping a file on gvim).
+      autocmd BufReadPost *
+                  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                  \   exe "normal! g`\"" |
+                  \ endif
+  
 	augroup END
 
 else
