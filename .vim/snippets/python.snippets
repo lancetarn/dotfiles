@@ -1,5 +1,5 @@
 snippet #!
-	#!/usr/bin/python
+	#!/usr/bin/env python3
 
 snippet imp
 	import ${1:module}
@@ -46,6 +46,8 @@ snippet property
 			${4:self._$1 = value}
 # Lambda
 snippet ld
+	lambda ${1:vars} : ${2:action}
+snippet ldv
 	${1:var} = lambda ${2:vars} : ${3:action}
 snippet .
 	self.
@@ -84,3 +86,22 @@ snippet ifmain
 # __magic__
 snippet _
 	__${1:init}__${2}
+# list comprehension
+snippet lc
+	[${1:i} for ${2:i} in ${3:list}]
+# dict comprehension
+snippet dc
+	{${1:k}: ${2:v} for ${3:i} in ${4:iter}}
+# Generator expression
+snippet gen
+	(${1:i} for ${2:i} in ${3:list})
+# Apply picard debug
+snippet pic
+	import picard
+	with log.temporary_config(level=picard.DEBUG):
+# Set a pdb breakpoint
+snippet pdb
+	import pdb; pdb.set_trace()
+# Set a web-pdb breakpoint
+snippet wpdb
+	import web_pdb; web_pdb.set_trace()
