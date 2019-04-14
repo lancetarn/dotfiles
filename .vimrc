@@ -3,6 +3,8 @@
 "let g:pathogen_disabled = ['vim-autoclose', 'vim-snipMate']
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
+" custom commands start with ,
+let mapleader = ","
 set nocompatible         " don't worry about being compatible with vi
 set backspace=indent,eol,start
 set history=50		" keep 50 lines of command line history
@@ -21,22 +23,20 @@ set nowrap
 set hidden
 set cpo+=d            " use tags file relative to CWD, not file
 set completeopt=menu,menuone,longest
+set completeopt+=noinsert
 set tags=./tags/all   " use exuberant ctags for completion, lookup
 set gdefault
 set ts=4
 set shiftwidth=4
 set expandtab
 set background=dark
+set pastetoggle=<leader>p
 "set background=light
 :colorscheme Tomorrow-Night
 ":colorscheme solarized
 :filetype plugin on
-" custom commands start with ,
-let mapleader = ","
 " map CTRL-e to EOL (insert)
 imap <C-e> <esc>$i<right>
-" Open new tab with Ctrl-o
-noremap <c-o> :tabe<cr>
 " Toggle line numbering
 noremap <F7> :set nu!<CR>:set nu?<CR>
 " Horizontal split nav
@@ -45,10 +45,10 @@ map <C-K> <C-W>k<C-W>_
 " Vertical split nav
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
-" Tab nav, C-n/m
+" Buffer nav, C-n/m
 noremap <C-m> :bn<CR>
 noremap <C-n> :bp<CR>
-" Quick escap = vv
+" Quick escape = vv
 inoremap vv <ESC>
 " Quickly edit/reload the .vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -59,8 +59,9 @@ vnoremap <tab> %
 
 " Ack usage
 let g:ackprg = 'ag --vimgrep'
-nmap <leader>a :Ack!
+nmap <leader>a :Ack! 
 nmap <leader>q :cclose<CR>
+nmap <leader>o :copen>
 
 " Hopefully gives me arrow keys again when editing sql files.
 let g:omni_sql_no_default_maps = 1
@@ -68,33 +69,40 @@ let g:omni_sql_no_default_maps = 1
 " for airline
 set laststatus=2
 
+
 "Syntastic
 let g:syntastic_php_checkers=['php']
-"let g:syntastic_python_checkers=['python3', 'flake8']
-let g:syntastic_python_checkers=['python3']
+let g:syntastic_python_checkers=['python3', 'flake8']
+let g:syntastic_javascript_checkers=['jshint']
 
 "SnipMate
 let g:snips_author = 'Lance Erickson <lancetarn@gmail.com>'
 
 "Tagbar
-nmap <c-\> :TagbarToggle<CR>
+nmap <leader>t :TagbarToggle<CR>
 let g:tagbar_sort = 0
 let g:tagbar_foldlevel = 0
 let g:tagbar_width = 40
 let g:tagbar_ctags_bin = 'ctags'
 
+"Terraform
+let g:terraform_align = 1
 "Keep CtrlP using vcs root
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store'
 
 "NERDtree
-map <C-q> :NERDTreeToggle<CR>
+map <leader>f :NERDTreeToggle<CR>
+
+" vim-go
+let g:go_fmt_command = "goimports"
+
+" vim-javascript
+let g:javascript_plugin_jsdoc = 1
 
 "Clipper - send to Mac clipboard
 noremap <leader>y :call system('nc localhost 21212', @0)<CR>
-
-" Stolen from Clockwork blog
-:command SvnDiff :vert diffsplit %:h/.svn/text-base/%:t.svn-base
 
 " Switch syntax highlighting on, when the terminal has colors
 syntax on
@@ -128,34 +136,36 @@ if has("autocmd")
 	augroup vimrcEx
 		au!
 
-		" For all text files set 'textwidth' to 78 characters.
-		autocmd FileType text setlocal textwidth=78
+        " For all text files set 'textwidth' to 78 characters.
+        autocmd FileType text,python,markdown setlocal textwidth=78
 
-		" AMM alignment style
-		" autocmd FileType php call Align#AlignCtrl( 'Wp2P2l:','=>','=' )
+        " Python
+        autocmd FileType python execute "compiler pytest"
 
+        " Golang
+        autocmd FileType go nmap <leader>b  <Plug>(go-build)
+        autocmd FileType go nmap <leader>r  <Plug>(go-run)
 
-      " Elm
-      autocmd FileType elm setlocal et ts=2 sw=2
-      let g:syntastic_always_populate_loc_list = 1
-      let g:syntastic_auto_loc_list = 1
+        " Elm
+        autocmd FileType elm setlocal et ts=2 sw=2
+        let g:syntastic_always_populate_loc_list = 1
+        let g:syntastic_auto_loc_list = 1
 
-      let g:elm_syntastic_show_warnings = 1
+        let g:elm_syntastic_show_warnings = 1
 
-      " Js
-      autocmd FileType js setlocal et ts=2 sw=2
+        " Js
+        autocmd FileType javascript,vue,yaml setlocal et ts=2 sw=2
 
-      " Apache files in shared checkout AMMs
-      autocmd BufNewFile,BufRead */conf/httpd/*.conf* set syntax=apache
-
-      " When editing a file, always jump to the last known cursor position.
-      " Don't do it when the position is invalid or when inside an event handler
-      " (happens when dropping a file on gvim).
-      autocmd BufReadPost *
+        " When editing a file, always jump to the last known cursor position.
+        " Don't do it when the position is invalid or when inside an event handler
+        " (happens when dropping a file on gvim).
+        autocmd BufReadPost *
                   \ if line("'\"") > 0 && line("'\"") <= line("$") |
                   \   exe "normal! g`\"" |
                   \ endif
-  
+
+        " Terraform comments for vim-commentary
+        autocmd FileType terraform setlocal commentstring=#%s
 	augroup END
 
 else
