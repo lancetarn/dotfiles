@@ -1,0 +1,13 @@
+{
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
+    }
+  },
+  "typescript.suggestionActions.enabled": false,
+  "typescript.validate.enable": false,
+  "javascript.suggestionActions.enabled": false,
+  "python.linting.pylintEnabled": false
+}
