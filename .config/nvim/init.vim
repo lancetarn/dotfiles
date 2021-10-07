@@ -1,12 +1,13 @@
 let &packpath = &runtimepath
 
 let g:python2_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/Users/lanceerickson/.virtualenvs/nvim/bin/python3.7'
+let g:python3_host_prog = '/Users/lanceerickson/.virtualenvs/38/bin/python3.8'
 
 " Required:
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 let mapleader = ","
+let maplocalleader = ","
 set nocompatible         " don't worry about being compatible with vi
 set backspace=indent,eol,start
 set history=50		" keep 50 lines of command line history
@@ -29,14 +30,15 @@ set gdefault
 set ts=4
 set shiftwidth=4
 set expandtab
-set background=dark
-set pastetoggle=<leader>p
+set background=light
+" set background=dark
 set noshowmode
 set termguicolors
 
 syntax enable
 
-filetype plugin on
+filetype plugin indent on
+
 " map CTRL-e to EOL (insert)
 imap <C-e> <esc>$i<right>
 " Toggle line numbering
@@ -61,7 +63,8 @@ vnoremap <tab> %
 " Close/open location windows
 nmap <leader>q :cclose<CR>
 nmap <leader>l :lclose<CR>
-nmap <leader>o :copen
+nmap <leader>o :copen<CR>
+nmap <leader>a :lopen<CR>
 
 " Display indent helpers
 " Group Names: Comment Constant Identifier Statement
@@ -85,19 +88,24 @@ if dein#load_state('/Users/lanceerickson/.cache/dein')
   " Add or remove your plugins here like this:
   call dein#add('5long/pytest-vim-compiler')
   call dein#add('digitaltoad/vim-pug', {'on_ft': 'vue'})
+  call dein#add('fatih/vim-go', {'rev': 'release'})
   call dein#add('godlygeek/tabular')
   call dein#add('hashivim/vim-terraform')
   call dein#add('honza/vim-snippets')
-  call dein#add('joshdick/onedark.vim')
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
   call dein#add('justinmk/vim-sneak')
+  call dein#add('luochen1990/rainbow', {'on_ft': 'clojure'})
+  call dein#add('unblevable/quick-scope')
   call dein#add('kkoomen/vim-doge')
   call dein#add('majutsushi/tagbar')
+  call dein#add('manicmaniac/coconut.vim')
   call dein#add('morhetz/gruvbox')
   call dein#add('neoclide/coc.nvim', { 'rev': 'release' })
+  call dein#add('Olical/conjure', { 'on_ft': 'clojure' })
+  call dein#add('Olical/aniseed', { 'rev': 'v3.18.0' })
   call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript', 'rev': 'db595656304959dcc3805cf63ea9a430e3f01e8f'})
-  call dein#add('posva/vim-vue', {'on_ft': 'vue'})
+  call dein#add('posva/vim-vue',  {'on_ft': 'vue'})
   call dein#add('romainl/flattened')
   call dein#add('rust-lang/rust.vim')
   call dein#add('scrooloose/nerdtree')
@@ -120,12 +128,18 @@ if dein#load_state('/Users/lanceerickson/.cache/dein')
 
 endif
 
+" ============ quick-scope =================="
+"
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
 " ============ FZF =================="
 nnoremap <silent> <c-p> :Files<CR>
 nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
 nnoremap <silent> <Leader>C        :Colors<CR>
 nnoremap <silent> <Leader><Enter>  :Buffers<CR>
 nnoremap <silent> <Leader>L        :Lines<CR>
+nnoremap <silent> <Leader>t        :Tags<CR>
 nnoremap <silent> <Leader>ag       :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG       :Ag <C-R><C-A><CR>
 nnoremap <silent> <Leader>`        :Marks<CR>
@@ -147,17 +161,19 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " position.
 " " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Make it easy to set interpreter
-nmap <leader>s :CocCommand python.setInterpreter<CR>
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gt <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 " Search current project symbols
 nnoremap <silent> <leader>ds :<C-u>CocList -I -N --top symbols<CR>
+
+" Current date isofmt
+:nnoremap <F5> "=strftime("%Y-%m-%d")<CR>P
+:inoremap <F5> <C-R>=strftime("%Y-%m-%d")<CR>
 
 let g:gruvbox_italics = 1
 colorscheme gruvbox
@@ -215,6 +231,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-l>"
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
 
+let g:coc_filetype_map = {
+  \ 'selmer': 'htmldjango',
+  \ }
 "
 	augroup vimrcEx
         filetype plugin indent on
@@ -222,15 +241,15 @@ let g:terraform_fmt_on_save=1
         autocmd FileType python execute "compiler pytest"
 
         " Vue
-        autocmd BufNewFile,Bufread *.vue setlocal filetype=vue
+        autocmd BufNewFile,BufReadPost *.vue setlocal filetype=vue
 
         " For all text files set 'textwidth' to 78 characters.
         autocmd FileType text,python,markdown setlocal textwidth=78
 
         " Two-space tabs
-        autocmd FileType javascript,vue,yaml,html,rust setlocal et ts=2 sw=2
-        autocmd FileType javascript,vue setlocal textwidth=90
-        autocmd FileType vue setlocal commentstring=//%s
+        autocmd FileType javascript,vue,yaml,html,rust,json setlocal et ts=2 sw=2
+        autocmd FileType javascript,vue setlocal textwidth=90 commentstring=//%s
+        autocmd FileType clojure call RainbowToggle
 
 
         " When editing a file, always jump to the last known cursor position.
@@ -243,4 +262,17 @@ let g:terraform_fmt_on_save=1
 
         " Terraform comments for vim-commentary
         autocmd FileType terraform setlocal commentstring=#%s
+        au BufRead,BufNewFile *.go.html set filetype=gohtmltmpl
 	augroup END
+
+
+    " CoC Documentation on hover
+    " augroup hover
+    "     autocmd!
+    "     autocmd CursorHold * if ! coc#float#has_float()
+    "         \| silent call CocAction('doHover') | call CocActionAsync('highlight')
+    "     \| endif
+    "     autocmd CursorHoldI * if CocAction('ensureDocument')
+    "         \|silent call CocAction('showSignatureHelp')
+    "     \| endif
+    " augroup end
