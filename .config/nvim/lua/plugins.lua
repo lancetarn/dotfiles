@@ -34,9 +34,10 @@ return {
   "rust-lang/rust.vim",
   "scrooloose/nerdtree",
   "scrooloose/syntastic",
-  -- Pinned to master to keep the legacy `require'nvim-treesitter.configs'.setup{}`
-  -- API used in lua/init.lua (the `main` branch rewrote it).
-  { "nvim-treesitter/nvim-treesitter", branch = "master", build = ":TSUpdate" },
+  -- `main` branch (the rewrite). The old `master` branch is frozen and its
+  -- highlighter breaks on Neovim 0.12 ("attempt to call method 'range'"); the
+  -- new API lives in lua/init.lua.
+  { "nvim-treesitter/nvim-treesitter", branch = "main", lazy = false, build = ":TSUpdate" },
   { "glacambre/firenvim", tag = "0.2.14", build = function() vim.fn["firenvim#install"](0) end },
   "tpope/vim-commentary",
   "tpope/vim-dispatch",

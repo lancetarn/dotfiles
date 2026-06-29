@@ -40,7 +40,7 @@ brew "k9s"                   # Kubernetes CLI to manage your clusters in style
 brew "kerl"                  # Easy building and installing of Erlang/OTP instances
 brew "keyring"               # Access the system keyring service from Python
 brew "kubectx"               # Switch between kubectl contexts easily and create aliases
-brew "kubernetes-cli@1.22"   # Kubernetes command-line interface (pinned 1.22)
+brew "kubernetes-cli"        # Kubernetes command-line interface (was pinned @1.22, which is gone upstream — now latest)
 brew "mailpit", restart_service: :changed  # Web and API based SMTP testing
 brew "mcp-publisher"         # Publisher CLI for the Model Context Protocol (MCP) Registry
 brew "midnight-commander"    # Terminal-based visual file manager
@@ -49,7 +49,7 @@ brew "mtr"                   # 'traceroute' and 'ping' in a single tool
 brew "neovim"                # Ambitious Vim-fork focused on extensibility and agility
 brew "nmap"                  # Port scanning utility for large networks
 brew "nvm"                   # Manage multiple Node.js versions
-brew "openssl@1.1"           # Cryptography and SSL/TLS Toolkit
+# openssl@1.1 removed — EOL and no longer in Homebrew; openssl@3 is pulled in as a dependency.
 brew "openvpn"               # SSL/TLS VPN implementing OSI layer 2 or 3 secure network
 brew "pandoc"                # Swiss-army knife of markup format conversion
 brew "peco"                  # Simplistic interactive filtering tool
@@ -64,16 +64,18 @@ brew "rbenv"                 # Ruby version manager
 brew "rich-cli"              # Command-line toolbox for fancy output in the terminal
 brew "rtmpdump"              # Tool for downloading RTMP streaming media
 brew "scc"                   # Fast, accurate code counter with complexity/COCOMO estimates
+brew "scoutapp/tap/scout-cli" # Scout APM CLI — monitor app performance (moved from cask to formula)
 brew "sd"                    # Intuitive find & replace CLI
 brew "semgrep"               # Detect and prevent bugs and anti-patterns in your codebase
 brew "sevenzip"              # 7-Zip file archiver with a high compression ratio
 brew "solargraph"            # Ruby language server
-brew "spotify-tui"           # Terminal-based client for Spotify
+# spotify-tui removed — upstream project archived and dropped from Homebrew (no drop-in replacement).
 brew "steampipe"             # Use SQL to instantly query your cloud services
 brew "tesseract"             # OCR (Optical Character Recognition) engine
 brew "the_silver_searcher"   # Code-search similar to ack
 brew "tmux"                  # Terminal multiplexer
 brew "tree"                  # Display directories as trees
+brew "tree-sitter-cli"       # tree-sitter CLI — required by nvim-treesitter (main branch) to compile parsers
 brew "trufflehog"            # Find and verify credentials
 brew "universal-ctags"       # Maintained ctags implementation
 brew "uv"                    # Extremely fast Python package installer/resolver (Rust)
@@ -86,12 +88,12 @@ brew "yq"                    # Process YAML, JSON, XML, CSV and properties from 
 brew "zlib"                  # General-purpose lossless data-compression library
 
 # --- Casks (GUI apps & binaries) --------------------------------------------
-cask "blackhole-16ch"            # Virtual audio driver (16 channels)
-cask "blackhole-2ch"             # Virtual audio driver (2 channels)
 cask "codex"                     # OpenAI's coding agent that runs in your terminal
 cask "ngrok"                     # Reverse proxy / secure tunnels to localhost
-cask "openvpn-connect"           # Client program for the OpenVPN Access Server
-cask "scoutapp/tap/scout-cli"    # Scout APM CLI — monitor app performance from the terminal
+# Removed — these ship .pkg installers needing a sudo password (install manually if wanted):
+#   cask "blackhole-2ch"     # Virtual audio driver (2 channels)
+#   cask "blackhole-16ch"    # Virtual audio driver (16 channels)
+#   cask "openvpn-connect"   # OpenVPN Access Server client
 
 # ============================================================================
 # OPTIONAL — uncomment what you want, then re-run ./brew-install.sh
