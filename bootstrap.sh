@@ -18,4 +18,12 @@ else
 	fi
 fi
 unset doIt
+
+# Install Homebrew + packages from the Brewfile.
+read -p "Install Homebrew packages from Brewfile? (y/n) " -n 1
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	./brew-install.sh
+fi
+
 source ~/.bash_profile

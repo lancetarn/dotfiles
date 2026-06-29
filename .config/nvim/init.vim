@@ -1,10 +1,7 @@
 let &packpath = &runtimepath
 
-let g:python2_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/Users/lanceerickson/.virtualenvs/38/bin/python3.8'
-
-" Required:
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+let g:python2_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/Users/lance/.pyenv/versions/3.9.11/bin/python'
 
 let mapleader = ","
 let maplocalleader = ","
@@ -39,32 +36,7 @@ syntax enable
 
 filetype plugin indent on
 
-" map CTRL-e to EOL (insert)
-imap <C-e> <esc>$i<right>
-" Toggle line numbering
-noremap <F7> :set nu!<CR>:set nu?<CR>
-" Horizontal split nav
-map <C-J> <C-W>j
-map <C-K> <C-W>k
-" Vertical split nav
-noremap <C-l> <C-w>l
-noremap <C-h> <C-w>h
-" Buffer nav, C-n/m
-noremap <C-m> :bn<CR>
-noremap <C-n> :bp<CR>
-" Quick escape = vv
-inoremap vv <ESC>
-" Quickly edit/reload the .vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
-" Tab jumps to matching brackets
-nnoremap <tab> %
-vnoremap <tab> %
-" Close/open location windows
-nmap <leader>q :cclose<CR>
-nmap <leader>l :lclose<CR>
-nmap <leader>o :copen<CR>
-nmap <leader>a :lopen<CR>
+
 
 " Display indent helpers
 " Group Names: Comment Constant Identifier Statement
@@ -76,57 +48,31 @@ set listchars=tab:.\ ,trail:~
 " Some color preferences
 hi NonText ctermfg=DarkGray
 
-"====== Dein Plugins =======
-" Required:
-if dein#load_state('/Users/lanceerickson/.cache/dein')
-  call dein#begin('/Users/lanceerickson/.cache/dein')
+"====== lazy.nvim Plugins =======
+" Bootstrap lazy.nvim and load the plugin spec from ~/.config/nvim/lua/plugins.lua.
+" mapleader is set above, before setup, as lazy.nvim requires.
+lua << EOF
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  vim.fn.system({
+    "git", "clone", "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('/Users/lanceerickson/.cache/dein/repos/github.com/Shougo/dein.vim')
+require("lazy").setup(require("plugins"))
+EOF
 
-  " Add or remove your plugins here like this:
-  call dein#add('5long/pytest-vim-compiler')
-  call dein#add('digitaltoad/vim-pug', {'on_ft': 'vue'})
-  call dein#add('fatih/vim-go', {'rev': 'release'})
-  call dein#add('godlygeek/tabular')
-  call dein#add('hashivim/vim-terraform')
-  call dein#add('honza/vim-snippets')
-  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
-  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-  call dein#add('justinmk/vim-sneak')
-  call dein#add('luochen1990/rainbow', {'on_ft': 'clojure'})
-  call dein#add('unblevable/quick-scope')
-  call dein#add('kkoomen/vim-doge')
-  call dein#add('majutsushi/tagbar')
-  call dein#add('manicmaniac/coconut.vim')
-  call dein#add('morhetz/gruvbox')
-  call dein#add('neoclide/coc.nvim', { 'rev': 'release' })
-  call dein#add('Olical/conjure', { 'on_ft': 'clojure' })
-  call dein#add('Olical/aniseed', { 'rev': 'v3.18.0' })
-  call dein#add('pangloss/vim-javascript', {'on_ft': 'javascript', 'rev': 'db595656304959dcc3805cf63ea9a430e3f01e8f'})
-  call dein#add('posva/vim-vue',  {'on_ft': 'vue'})
-  call dein#add('romainl/flattened')
-  call dein#add('rust-lang/rust.vim')
-  call dein#add('scrooloose/nerdtree')
-  call dein#add('scrooloose/syntastic')
-  call dein#add('SirVer/ultisnips', {'depends': 'vim-snippets'})
-  call dein#add('tpope/vim-commentary')
-  call dein#add('tpope/vim-dispatch')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('tpope/vim-surround')
-  call dein#add('vim-airline/vim-airline')
+" Run this setup after all plugins are loaded.
+" Lives at ~/.config/nvim/lua/init.lua (nvim-treesitter config)
+lua require('init')
 
-  " Required:
-  call dein#end()
-  call dein#save_state()
+" ============ neoformat ============="
+" Try to run local prettier
+let g:neoformat_try_node_exe = 1
 
-  " Install not installed plugins on startup.
-  if dein#check_install()
-    call dein#install()
-  endif
-
-endif
 
 " ============ quick-scope =================="
 "
@@ -171,12 +117,30 @@ nmap <leader>rn <Plug>(coc-rename)
 " Search current project symbols
 nnoremap <silent> <leader>ds :<C-u>CocList -I -N --top symbols<CR>
 
+" coc-snippet stuff
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
+
+
 " Current date isofmt
 :nnoremap <F5> "=strftime("%Y-%m-%d")<CR>P
 :inoremap <F5> <C-R>=strftime("%Y-%m-%d")<CR>
 
-let g:gruvbox_italics = 1
-colorscheme gruvbox
 
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
@@ -204,8 +168,7 @@ let g:NERDTreeShowHidden = 1
 
 map <leader>f :NERDTreeToggle<CR>
 
-"Clipper - send to Mac clipboard
-noremap <leader>y :call system('nc localhost 21212', @0)<CR>
+noremap <leader>y :let @+=@"<CR>
 
 " vim-javascript
 let g:javascript_plugin_jsdoc = 1
@@ -222,10 +185,37 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_check_on_open = 0
 
+" SnipMate
+" let g:snipMate = {}
+" let g:snipMate.snippet_version = 1
 " Ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-l>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-l>"
+"
+
+" Firenvim - font size adjust 
+if exists('g:started_by_firenvim')
+  nnoremap <leader>font :set guifont=SauceCodeProNF:h10<CR>
+endif
+" function! OnUIEnter(event) abort
+"   if s:IsFirenvimActive(a:event)
+"     nnoremap <space> :set lines=28 columns=110 <CR>
+
+"     let s:fontsize = 10
+"     function! AdjustFontSizeF(amount)
+"       let s:fontsize = s:fontsize+a:amount
+"       execute "set guifont=SauceCodeProNF:h" . s:fontsize
+"       call rpcnotify(0, 'Gui', 'WindowMaximized', 1)
+"     endfunction
+
+"     noremap  <C-=> :call AdjustFontSizeF(1)<CR>
+"     noremap  <C--> :call AdjustFontSizeF(-1)<CR>
+"     inoremap <C-=> :call AdjustFontSizeF(1)<CR>
+"     inoremap <C--> :call AdjustFontSizeF(-1)<CR>
+" endif
+" endfunction
+" autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
 
 " Terraform
 let g:terraform_align=1
@@ -238,17 +228,23 @@ let g:coc_filetype_map = {
 	augroup vimrcEx
         filetype plugin indent on
         " Python
+        autocmd FileType htmldjango setlocal commentstring={#\ %s\ #} ts=2 sw=2
         autocmd FileType python execute "compiler pytest"
+        autocmd BufWritePre *.py Black
 
         " Vue
         autocmd BufNewFile,BufReadPost *.vue setlocal filetype=vue
+        " autocmd BufWritePre *.js,*.vue,*.ts Neoformat
 
         " For all text files set 'textwidth' to 78 characters.
-        autocmd FileType text,python,markdown setlocal textwidth=78
+        autocmd FileType text,python setlocal textwidth=88
+        " No completion for markdown
+        autocmd FileType markdown,text let b:coc_suggest_disable=1 | setlocal wrap
 
         " Two-space tabs
-        autocmd FileType javascript,vue,yaml,html,rust,json setlocal et ts=2 sw=2
-        autocmd FileType javascript,vue setlocal textwidth=90 commentstring=//%s
+        autocmd FileType javascript,vue,yaml,html,rust,json,typescript setlocal et ts=2 sw=2
+        autocmd FileType javascript,vue setlocal textwidth=100 commentstring=//%s
+
         autocmd FileType clojure call RainbowToggle
 
 
@@ -276,3 +272,34 @@ let g:coc_filetype_map = {
     "         \|silent call CocAction('showSignatureHelp')
     "     \| endif
     " augroup end
+    "
+color base16-tomorrow-night-eighties
+" map CTRL-e to EOL (insert)
+imap <C-e> <esc>$i<right>
+" Toggle line numbering
+noremap <F7> :set nu!<CR>:set nu?<CR>
+" Horizontal split nav
+map <C-J> <C-W>j
+map <C-K> <C-W>k
+" Vertical split nav
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+" Buffer nav, C-n/m
+noremap <CR> :bn<CR>
+noremap <C-n> :bp<CR>
+" Quick escape = vv
+inoremap vv <ESC>
+" Quickly edit/reload the .vimrc file
+nmap <silent> <leader>ev :e $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" Tab jumps to matching brackets
+nnoremap <tab> %
+vnoremap <tab> %
+" Close/open location windows
+nmap <leader>q :cclose<CR>
+nmap <leader>l :lclose<CR>
+nmap <leader>o :copen<CR>
+nmap <leader>a :lopen<CR>
+" Light/dark switching
+nmap <leader>cl :color solarized<CR>
+nmap <leader>cd :color base16-tomorrow-night-eighties<CR>
