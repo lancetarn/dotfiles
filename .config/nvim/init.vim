@@ -304,6 +304,41 @@ let g:coc_filetype_map = {
     "     \| endif
     " augroup end
     "
+
+" ============ Cursor: blink + contrast that follows the scheme ==========
+" Blink every mode (default only blinks the terminal cursor); block in
+" normal/visual, bar in insert, underline in replace. All editor modes use
+" the Cursor highlight, which s:CursorContrast() recolors below. Keep the
+" terminal-mode entry so :terminal stays as Neovim ships it.
+set guicursor=n-v-c-sm:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr-o:hor20-Cursor/lCursor,a:blinkwait350-blinkoff250-blinkon350,t:block-blinkon500-blinkoff500-TermCursor
+
+" Pick a high-contrast cursor from the *actual* Normal background luminance
+" rather than &background (which is pinned to 'light' here and never tracks
+" the loaded scheme). Dark bg -> bright cursor; light bg -> dark cursor.
+function! s:CursorContrast() abort
+  let l:bg = synIDattr(synIDtrans(hlID('Normal')), 'bg#')
+  if l:bg =~? '^#\x\{6}$'
+    let l:lum = (str2nr(l:bg[1:2], 16) * 299
+          \    + str2nr(l:bg[3:4], 16) * 587
+          \    + str2nr(l:bg[5:6], 16) * 114) / 1000
+    let l:dark = l:lum < 128
+  else
+    let l:dark = &background ==# 'dark'
+  endif
+  if l:dark
+    highlight Cursor  gui=NONE cterm=NONE guifg=#101010 guibg=#f2e750 ctermfg=16 ctermbg=226
+    highlight lCursor gui=NONE cterm=NONE guifg=#101010 guibg=#8ec07c ctermfg=16 ctermbg=114
+  else
+    highlight Cursor  gui=NONE cterm=NONE guifg=#f6f6f6 guibg=#d33682 ctermfg=231 ctermbg=125
+    highlight lCursor gui=NONE cterm=NONE guifg=#f6f6f6 guibg=#268bd2 ctermfg=231 ctermbg=32
+  endif
+endfunction
+
+augroup CursorContrast
+  autocmd!
+  autocmd ColorScheme * call s:CursorContrast()
+augroup END
+
 color base16-tomorrow-night-eighties
 " map CTRL-e to EOL (insert)
 imap <C-e> <esc>$i<right>
