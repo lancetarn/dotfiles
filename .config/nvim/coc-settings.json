@@ -4,6 +4,12 @@
       "command": "gopls",
       "rootPatterns": ["go.mod"],
       "filetypes": ["go"]
+    },
+    "elixir": {
+      "command": "dexter",
+      "args": ["lsp"],
+      "rootPatterns": ["mix.exs"],
+      "filetypes": ["elixir", "eelixir", "heex"]
     }
   },
   "typescript.suggestionActions.enabled": false,

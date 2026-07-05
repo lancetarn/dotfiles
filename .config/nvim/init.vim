@@ -1,7 +1,7 @@
 let &packpath = &runtimepath
 
-let g:python2_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/Users/lance/.pyenv/versions/3.9.11/bin/python'
+" let g:python2_host_prog = '/usr/bin/python'
+" let g:python3_host_prog = '/Users/lance/.pyenv/versions/3.9.11/bin/python'
 
 let mapleader = ","
 let maplocalleader = ","
@@ -15,7 +15,6 @@ set nohlsearch
 set number
 set visualbell
 set ignorecase smartcase
-set guioptions=aegtc
 set mouse=a
 set wildmode=list:longest
 set nobackup
@@ -85,7 +84,7 @@ nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\
 nnoremap <silent> <Leader>C        :Colors<CR>
 nnoremap <silent> <Leader><Enter>  :Buffers<CR>
 nnoremap <silent> <Leader>L        :Lines<CR>
-nnoremap <silent> <Leader>t        :Tags<CR>
+nnoremap <silent> <Leader>T        :Tags<CR>
 nnoremap <silent> <Leader>ag       :Ag <C-R><C-W><CR>
 nnoremap <silent> <Leader>AG       :Ag <C-R><C-A><CR>
 nnoremap <silent> <Leader>`        :Marks<CR>
@@ -161,6 +160,38 @@ let g:tagbar_sort = 0
 let g:tagbar_foldlevel = 0
 let g:tagbar_width = 40
 let g:tagbar_ctags_bin = 'ctags'
+" Elixir outline: Tagbar ships no built-in type, but Universal Ctags has a
+" full Elixir parser. Map its kinds (see `ctags --list-kinds=Elixir`) so the
+" tagviewer nests functions/types under their module/protocol/impl scope.
+let g:tagbar_type_elixir = {
+    \ 'ctagstype' : 'elixir',
+    \ 'kinds' : [
+        \ 'p:protocols',
+        \ 'm:modules',
+        \ 'e:exceptions',
+        \ 'y:types',
+        \ 'd:delegates',
+        \ 'f:functions',
+        \ 'c:callbacks',
+        \ 'a:macros',
+        \ 't:tests',
+        \ 'i:implementations',
+        \ 'o:operators',
+        \ 'r:records',
+        \ 'g:guards',
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 'm' : 'module',
+        \ 'p' : 'protocol',
+        \ 'i' : 'implementation',
+    \ },
+    \ 'scope2kind' : {
+        \ 'module' : 'm',
+        \ 'protocol' : 'p',
+        \ 'implementation' : 'i',
+    \ },
+\ }
 
 "NERDtree
 "" Show hidden files/directories
