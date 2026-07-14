@@ -16,6 +16,7 @@ brew "automake"              # Tool for generating GNU Standards-compliant Makef
 brew "awscli"                # Official Amazon AWS command-line interface
 brew "bat"                   # Clone of cat(1) with syntax highlighting and Git integration
 brew "datasette"             # Open source multi-tool for exploring and publishing data
+brew "difftastic"            # Structural diff tool (wired to git via diff.external)
 brew "direnv"                # Load/unload environment variables based on $PWD
 brew "docker"                # Pack, ship and run any application as a lightweight container
 brew "docutils"              # Text processing system for reStructuredText
