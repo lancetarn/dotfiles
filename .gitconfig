@@ -1,0 +1,24 @@
+[user]
+	name = Lance Erickson
+	email = lancetarn@gmail.com
+[core]
+	excludesfile = /Users/lance/.gitignore
+[init]
+	defaultBranch = main
+
+# difftastic — structural diffs. See https://difftastic.wilfred.me.uk/git.html
+# `diff.external` routes `git diff` through difft; other commands (log/show)
+# need `--ext-diff`, which the aliases below pass for you.
+[diff]
+	external = difft
+	tool = difftastic
+[difftool]
+	prompt = false
+[difftool "difftastic"]
+	cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
+[pager]
+	difftool = true
+[alias]
+	dlog = -c diff.external=difft log --ext-diff
+	dshow = -c diff.external=difft show --ext-diff
+	ddiff = -c diff.external=difft diff
