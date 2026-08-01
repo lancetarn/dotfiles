@@ -92,12 +92,15 @@ export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
+# Preferred editor for local and remote sessions. Fall back to vim on hosts
+# without nvim, which is why this is a lookup rather than a bare assignment.
+# VISUAL as well: git, fc and most CLIs check VISUAL before EDITOR.
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR='nvim'
+else
+  export EDITOR='vim'
+fi
+export VISUAL="$EDITOR"
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
