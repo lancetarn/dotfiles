@@ -92,15 +92,7 @@ export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions. Fall back to vim on hosts
-# without nvim, which is why this is a lookup rather than a bare assignment.
-# VISUAL as well: git, fc and most CLIs check VISUAL before EDITOR.
-if command -v nvim >/dev/null 2>&1; then
-  export EDITOR='nvim'
-else
-  export EDITOR='vim'
-fi
-export VISUAL="$EDITOR"
+# EDITOR/VISUAL are set in ~/.zshenv, so non-interactive zsh gets them too.
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
@@ -116,6 +108,18 @@ export VISUAL="$EDITOR"
 # Example aliases
 alias zshconfig="nvim ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# lbot todo list. The note IS the store, so editing its checkboxes is how you
+# complete things: bare `todo` opens it in $EDITOR from any directory. Anything
+# else passes straight through to the CLI — `todo list`, `todo done 2`,
+# `todo add "thing" --due today`.
+todo() {
+  if [ $# -eq 0 ]; then
+    command pkm-todo edit
+  else
+    command pkm-todo "$@"
+  fi
+}
 
 alias k="kubectl"
 alias kx="kubectx"

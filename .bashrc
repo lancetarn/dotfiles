@@ -5,7 +5,16 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-export EDITOR="vim"
+# Preferred editor for local and remote sessions. Fall back to vim on hosts
+# without nvim, which is why this is a lookup rather than a bare assignment.
+# VISUAL as well: git, fc and most CLIs check VISUAL before EDITOR.
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR='nvim'
+else
+  export EDITOR='vim'
+fi
+export VISUAL="$EDITOR"
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
