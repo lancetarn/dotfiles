@@ -1,0 +1,22 @@
+{
+  "name": "Gruvbox Light",
+  "base": "light",
+  "overrides": {
+    "text": "#3c3836",
+    "inactive": "#7c6f64",
+    "subtle": "#928374",
+    "claude": "#af3a03",
+    "permission": "#076678",
+    "suggestion": "#076678",
+    "remember": "#8f3f71",
+    "success": "#79740e",
+    "error": "#9d0006",
+    "warning": "#b57614",
+    "merged": "#8f3f71",
+    "promptBorder": "#928374",
+    "planMode": "#427b58",
+    "autoAccept": "#8f3f71",
+    "userMessageBackground": "#ebdbb2",
+    "selectionBg": "#d5c4a1"
+  }
+}

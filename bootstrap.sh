@@ -52,4 +52,21 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	./brew-install.sh
 fi
 
+# Default Claude Code theme. The theme files come over with the rsync, but
+# settings.json is not tracked (it holds machine-specific hooks and
+# permissions), so set just the one key in place.
+function setClaudeTheme() {
+	local settings="$HOME/.claude/settings.json"
+	local theme="custom:gruvbox-light"
+	if ! command -v jq >/dev/null; then
+		echo "jq not found; skipping Claude Code theme. Set it with /theme."
+		return
+	fi
+	[ -f "$settings" ] || echo '{}' > "$settings"
+	jq --arg t "$theme" '.theme = $t' "$settings" > "$settings.tmp" && mv "$settings.tmp" "$settings"
+	echo "Claude Code theme set to $theme."
+}
+setClaudeTheme
+unset setClaudeTheme
+
 source ~/.bash_profile
