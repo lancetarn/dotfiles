@@ -90,6 +90,25 @@ nnoremap <silent> <Leader>AG       :Ag <C-R><C-A><CR>
 nnoremap <silent> <Leader>`        :Marks<CR>
 
 " ============ Lots of coc stuff below ===============
+" Extensions coc installs itself on first start, so a fresh machine gets them
+" from this file instead of a remembered :CocInstall. coc-tsserver wraps the same
+" tsserver VS Code uses and is what answers the gd/gy/gt/gr maps below in
+" TypeScript.
+"
+" Two things that surprised me and are worth not rediscovering:
+"   - It runs its own bundled TypeScript, NOT the repo's. Set "tsserver.tsdk"
+"     (or "tsserver.useLocalTsdk") in a project-local .vim/coc-settings.json
+"     when the version gap matters — that path is per-repo, so it does not
+"     belong in this file.
+"   - On a large repo the first gd can take minutes while tsserver loads the
+"     project. Until it finishes, gd resolves only to the local import line
+"     rather than jumping across files. :CocCommand workspace.showOutput
+"     tsserver shows progress; coc#status() reports "Initializing tsserver".
+"
+" "typescript.validate.enable": false in coc-settings.json still holds — that
+" only silences diagnostics, it does not affect navigation.
+let g:coc_global_extensions = ['coc-tsserver']
+
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Better display for messages
