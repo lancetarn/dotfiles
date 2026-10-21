@@ -1,0 +1,32 @@
+onboarding = false
+
+# Keys modeled on ~/.tmux.conf (herdr tabs = tmux windows).
+[keys]
+prefix = "ctrl+a"
+
+# Splits: | side by side, - stacked
+split_vertical = ["prefix+|", "prefix+v"]
+split_horizontal = "prefix+minus"
+
+# Pane focus with vim keys
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Tabs: ctrl+h / ctrl+l for prev/next, as tmux C-h / C-l for windows
+previous_tab = ["prefix+ctrl+h", "prefix+p"]
+next_tab = ["prefix+ctrl+l", "prefix+n"]
+
+# Rename the tab with prefix+, (tmux rename-window)
+rename_tab = "prefix+comma"
+
+# Workspaces: ctrl+k / ctrl+j for prev/next
+previous_workspace = "prefix+ctrl+k"
+next_workspace = "prefix+ctrl+j"
+
+# Resize with shift+vim keys, as tmux H/J/K/L. prefix+r enters resize mode for repeated nudges.
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
