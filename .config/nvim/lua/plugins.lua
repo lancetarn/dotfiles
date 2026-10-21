@@ -27,6 +27,7 @@ return {
   { "Olical/aniseed", tag = "v3.18.0" },
   "Tsuzat/NeoSolarized.nvim",
   "shaunsingh/solarized.nvim",
+  "ellisonleao/gruvbox.nvim",
   { "psf/black", branch = "stable" },
   { "pangloss/vim-javascript", ft = "javascript", commit = "db595656304959dcc3805cf63ea9a430e3f01e8f" },
   -- { "posva/vim-vue", ft = "vue" },

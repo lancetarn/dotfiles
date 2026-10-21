@@ -386,5 +386,5 @@ nmap <leader>l :lclose<CR>
 nmap <leader>o :copen<CR>
 nmap <leader>a :lopen<CR>
 " Light/dark switching
-nmap <leader>cl :color solarized<CR>
-nmap <leader>cd :color base16-tomorrow-night-eighties<CR>
+nmap <leader>cl :set background=light \| color gruvbox<CR>
+nmap <leader>cd :set background=dark \| color base16-tomorrow-night-eighties<CR>
