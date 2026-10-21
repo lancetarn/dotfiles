@@ -16,7 +16,7 @@ brew "automake"              # Tool for generating GNU Standards-compliant Makef
 brew "awscli"                # Official Amazon AWS command-line interface
 brew "bat"                   # Clone of cat(1) with syntax highlighting and Git integration
 brew "datasette"             # Open source multi-tool for exploring and publishing data
-brew "difftastic"            # Structural diff tool (wired to git via diff.external)
+brew "difftastic"            # Structural diff tool
 brew "direnv"                # Load/unload environment variables based on $PWD
 brew "docker"                # Pack, ship and run any application as a lightweight container
 brew "docutils"              # Text processing system for reStructuredText
@@ -28,6 +28,7 @@ brew "git-delta"             # Syntax-highlighting pager for git and diff output
 brew "glab"                  # Open-source GitLab command-line tool
 brew "gnupg"                 # GNU Privacy Guard (OpenPGP)
 brew "go"                    # Open source programming language (simple/reliable/efficient)
+brew "hunk"                  # Review-first terminal diff viewer (git pager and difftool)
 brew "graphviz"              # Graph visualization software from AT&T and Bell Labs
 brew "gron"                  # Make JSON greppable
 brew "guile"                 # GNU Ubiquitous Intelligent Language for Extensions

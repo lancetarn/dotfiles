@@ -1,7 +1,4 @@
-# git-diff.zsh — quick structural diff helpers.
-#
-# `git diff` is wired to difftastic (diff.external = difft in ~/.gitconfig),
-# so everything below renders as a structural side-by-side diff.
+# git-diff.zsh — quick diff helpers.
 #
 # Names avoid the omz `git`/`forgit` plugins, which already take
 # gd, gdca, gdcw, gds, gdt, gdup, gdw.

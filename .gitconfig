@@ -3,22 +3,17 @@
 	email = lancetarn@gmail.com
 [core]
 	excludesfile = /Users/lance/.gitignore
+	pager = hunk pager
 [init]
 	defaultBranch = main
 
-# difftastic — structural diffs. See https://difftastic.wilfred.me.uk/git.html
-# `diff.external` routes `git diff` through difft; other commands (log/show)
-# need `--ext-diff`, which the aliases below pass for you.
+
+# hunk: review-style diffs. See https://hunk.dev/docs/workflows/git-pager-and-difftool/
+# core.pager above sends diff/show output to hunk; non-diff output (log, etc.)
+# falls through to $PAGER or less -R.
 [diff]
-	external = difft
-	tool = difftastic
+	tool = hunk
 [difftool]
 	prompt = false
-[difftool "difftastic"]
-	cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
-[pager]
-	difftool = true
-[alias]
-	dlog = -c diff.external=difft log --ext-diff
-	dshow = -c diff.external=difft show --ext-diff
-	ddiff = -c diff.external=difft diff
+[difftool "hunk"]
+	cmd = hunk difftool \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
