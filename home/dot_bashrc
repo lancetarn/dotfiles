@@ -65,7 +65,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-export PATH=~/bin:${PATH}
+export PATH=~/bin:~/.local/bin:${PATH}
 
 # Virtualenvwrapper
 export WORKON_HOME=$HOME/.virtualenvs
