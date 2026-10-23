@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# clip — the system clipboard on Wayland, X11 or macOS.
+#
+#   echo hi | clip copy
+#   clip paste
+#
+case "$1" in
+copy)
+	if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null; then exec wl-copy
+	elif command -v pbcopy >/dev/null; then exec pbcopy
+	else exec xclip -i -selection clipboard
+	fi ;;
+paste)
+	if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste >/dev/null; then exec wl-paste --no-newline
+	elif command -v pbpaste >/dev/null; then exec pbpaste
+	else exec xclip -o -selection clipboard
+	fi ;;
+*)
+	echo "usage: clip copy|paste" >&2
+	exit 2 ;;
+esac

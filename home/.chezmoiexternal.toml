@@ -1,0 +1,19 @@
+# Third-party code chezmoi fetches into place (replaces git submodules and
+# the installer steps in the old bootstrap.sh). `chezmoi apply` pulls updates
+# at most once per refreshPeriod; `chezmoi apply -R` forces a refresh.
+
+# Oh My Zsh stays a git checkout so its own auto-updater keeps working.
+# Our custom plugins live outside it, in ~/.config/zsh/custom (ZSH_CUSTOM).
+[".oh-my-zsh"]
+    type = "git-repo"
+    url = "https://github.com/ohmyzsh/ohmyzsh.git"
+    refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
+
+[".config/zsh/custom/plugins/forgit"]
+    type = "git-repo"
+    url = "https://github.com/wfxr/forgit.git"
+    refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]

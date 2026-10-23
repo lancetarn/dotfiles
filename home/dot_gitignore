@@ -1,0 +1,5 @@
+# coc.nvim runtime data (downloaded extensions, memos) — not config
+.config/coc/
+
+# macOS noise
+.DS_Store
