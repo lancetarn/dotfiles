@@ -30,3 +30,6 @@ resize_pane_left = "prefix+shift+h"
 resize_pane_down = "prefix+shift+j"
 resize_pane_up = "prefix+shift+k"
 resize_pane_right = "prefix+shift+l"
+
+[terminal]
+default_shell = "/usr/bin/zsh"
