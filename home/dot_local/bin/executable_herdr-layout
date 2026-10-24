@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+#
+# herdr-layout — open a named herdr session laid out from
+# ~/.config/herdr/layouts/<name>, then attach to it. The name defaults to
+# herdr's own default session.
+#
+#   herdr-layout
+#   herdr-layout work
+#
+# A layout file is a list of lines; # starts a comment:
+#
+#   workspace <label>
+#   tab <label> <dir> [command...]
+#   split <right|down> <dir> [command...]
+#
+# A split splits the pane made by the line before it. Workspaces and tabs are
+# matched by label, and only missing ones are created, so rerunning is safe
+# after herdr restores a stopped session. Commands only run in panes this
+# script creates.
+#
+set -euo pipefail
+
+name=${1:-default}
+layout=${XDG_CONFIG_HOME:-$HOME/.config}/herdr/layouts/$name
+[ -r "$layout" ] || { echo "herdr-layout: no layout at $layout" >&2; exit 1; }
+
+# The default session is plain herdr, without --session.
+session=()
+[ "$name" = default ] || session=(--session "$name")
+h() { herdr "${session[@]}" "$@"; }
+dir() { case $1 in "~"*) printf '%s' "$HOME${1:1}" ;; *) printf '%s' "$1" ;; esac; }
+run() { if [ -n "$pane" ] && [ -n "$1" ]; then h pane run "$pane" "$1" >/dev/null; fi; }
+
+if ! h workspace list >/dev/null 2>&1; then
+	setsid herdr "${session[@]}" server </dev/null >/dev/null 2>&1 &
+	for _ in $(seq 50); do
+		h workspace list >/dev/null 2>&1 && break
+		sleep 0.1
+	done
+fi
+
+ws_label= ws= pane=
+# fd 3, so herdr calls in the loop cannot read the layout from stdin.
+while read -r kind label path cmd <&3; do
+	case $kind in
+	'' | '#'*) ;;
+	workspace)
+		ws_label=$label
+		ws=$(h workspace list | jq -r --arg l "$label" \
+			'first(.result.workspaces[] | select(.label == $l) | .workspace_id) // empty')
+		;;
+	tab)
+		pane=
+		if [ -z "$ws" ]; then
+			# A new workspace comes with one tab; that becomes this tab.
+			out=$(h workspace create --cwd "$(dir "$path")" --label "$ws_label" --no-focus)
+			ws=$(jq -r .result.workspace.workspace_id <<<"$out")
+			pane=$(jq -r .result.root_pane.pane_id <<<"$out")
+			h tab rename "$(jq -r .result.tab.tab_id <<<"$out")" "$label" >/dev/null
+		elif ! h tab list --workspace "$ws" | jq -e --arg l "$label" \
+			'any(.result.tabs[]; .label == $l)' >/dev/null; then
+			pane=$(h tab create --workspace "$ws" --cwd "$(dir "$path")" --label "$label" --no-focus |
+				jq -r .result.root_pane.pane_id)
+		fi
+		run "$cmd"
+		;;
+	split)
+		[ -n "$pane" ] || continue
+		pane=$(h pane split "$pane" --direction "$label" --cwd "$(dir "$path")" --no-focus |
+			jq -r .result.pane.pane_id)
+		run "$cmd"
+		;;
+	*) echo "herdr-layout: unknown line: $kind $label" >&2 ;;
+	esac
+done 3<"$layout"
+
+# From inside herdr, attaching would nest a client in a pane.
+if [ -n "${HERDR_PANE_ID:-}" ]; then
+	echo "herdr-layout: session $name is ready; attach with herdr ${session[*]}"
+else
+	exec herdr "${session[@]}"
+fi
