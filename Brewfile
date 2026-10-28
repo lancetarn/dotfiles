@@ -92,6 +92,7 @@ brew "zlib"                  # General-purpose lossless data-compression library
 # --- Casks (GUI apps & binaries) --------------------------------------------
 cask "codex"                     # OpenAI's coding agent that runs in your terminal
 cask "ngrok"                     # Reverse proxy / secure tunnels to localhost
+cask "visual-studio-code"        # GUI editor; default opener for text/data files (default-openers)
 # Removed — these ship .pkg installers needing a sudo password (install manually if wanted):
 #   cask "blackhole-2ch"     # Virtual audio driver (2 channels)
 #   cask "blackhole-16ch"    # Virtual audio driver (16 channels)

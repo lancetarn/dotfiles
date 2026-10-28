@@ -1,0 +1,14 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+#
+# macOS: make VS Code the default opener for text, data and code files.
+# Runs after brew-bundle (scripts run in name order), so VS Code is installed.
+# Re-runs whenever the list changes.
+# set-default-openers.swift sha256: {{ include "dot_config/default-openers/set-default-openers.swift" | sha256sum }}
+set -euo pipefail
+if ! command -v swift >/dev/null; then
+	echo "swift not found (install the Xcode command line tools); skipping default openers."
+	exit 0
+fi
+exec swift "{{ .chezmoi.sourceDir }}/dot_config/default-openers/set-default-openers.swift"
+{{ end -}}

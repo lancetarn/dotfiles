@@ -16,6 +16,8 @@ That clones this repo to `~/.local/share/chezmoi` and applies it, which also:
 - fetches Oh My Zsh and the forgit plugin (`home/.chezmoiexternal.toml`),
 - sets the Claude Code theme once (`home/.chezmoiscripts/`),
 - on macOS, installs Homebrew and the `Brewfile`, again whenever it changes.
+- on macOS, makes VS Code the default app for text, data and code files
+  (`~/.config/default-openers/`), again whenever that list changes.
 
 ## Day to day
 
