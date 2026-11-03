@@ -68,6 +68,10 @@ EOF
 " Lives at ~/.config/nvim/lua/init.lua (nvim-treesitter config)
 lua require('init')
 
+" Native LSP: dexter for Elixir (coc handles the other languages).
+" Lives at ~/.config/nvim/lua/lsp.lua
+lua require('lsp')
+
 " ============ neoformat ============="
 " Try to run local prettier
 let g:neoformat_try_node_exe = 1
@@ -370,7 +374,7 @@ map <C-K> <C-W>k
 noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 " Buffer nav, C-n/m
-noremap <CR> :bn<CR>
+"noremap <CR> :bn<CR>
 noremap <C-n> :bp<CR>
 " Quick escape = vv
 inoremap vv <ESC>
