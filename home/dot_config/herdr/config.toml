@@ -32,4 +32,4 @@ resize_pane_up = "prefix+shift+k"
 resize_pane_right = "prefix+shift+l"
 
 [terminal]
-default_shell = "/usr/bin/zsh"
+default_shell = "/bin/zsh"
