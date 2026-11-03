@@ -3,3 +3,6 @@
 
 # macOS noise
 .DS_Store
+
+# Sensitive
+.envrc
