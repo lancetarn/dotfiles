@@ -64,6 +64,7 @@ brew "python@3.10"           # Python 3.10
 brew "python@3.9"            # Python 3.9
 brew "rbenv"                 # Ruby version manager
 brew "rich-cli"              # Command-line toolbox for fancy output in the terminal
+brew "ripgrep"               # Search tool like grep, but faster and respects .gitignore
 brew "rtmpdump"              # Tool for downloading RTMP streaming media
 brew "scc"                   # Fast, accurate code counter with complexity/COCOMO estimates
 brew "scoutapp/tap/scout-cli" # Scout APM CLI — monitor app performance (moved from cask to formula)

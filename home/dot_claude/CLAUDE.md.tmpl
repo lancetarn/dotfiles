@@ -1,0 +1,61 @@
+# Global rules
+
+## Authoring Content
+
+I dislike dramatic, click-bait statements. I am factual, speak in plain language, not business jargon. I cannot stand rhetorical fluff likt "it's this, not that", emdash usage, anything that sounds like I am trying to market something. Use varied sentence length as necessary to communicate clearly. All I want is people to understand.
+
+## Deleting things: trash, never `rm`
+
+{{ if eq .chezmoi.os "darwin" -}}
+**Never use `rm` / `rm -rf` to delete a file or directory. Move it to the macOS Trash instead**, so
+it stays recoverable until I empty the Trash myself.
+
+```sh
+mv -- "$target" ~/.Trash/
+```
+
+- Trash for the boot volume is `~/.Trash`. Files on another mounted volume can't be `mv`'d across
+  the device boundary cheaply — use that volume's `/Volumes/<name>/.Trashes/$(id -u)/`.
+- **Watch for name collisions.** `mv` silently overwrites an existing file of the same name in the
+  Trash, and fails outright on a non-empty directory of the same name. When `~/.Trash/<name>`
+  already exists, disambiguate rather than clobbering:
+  ```sh
+  mv -- "$target" ~/.Trash/"$(basename -- "$target") $(date '+%Y-%m-%d %H.%M.%S')"
+  ```
+- This is a plain move, so Finder's **Put Back** won't work (that needs Finder's own metadata) —
+  restoring means dragging it out of the Trash. Recoverable is the point; tidy is not.
+{{- else -}}
+**Never use `rm` / `rm -rf` to delete a file or directory. Move it to the desktop Trash instead**,
+so it stays recoverable until I empty the Trash myself.
+
+```sh
+gio trash -- "$target"
+```
+
+- `gio trash` follows the freedesktop Trash spec: it handles name collisions, uses the right trash
+  directory on other mounted volumes, and records where the file came from, so the file manager's
+  Restore works. `gio trash --list` shows what is in the Trash.
+{{- end }}
+- Applies to anything I'd otherwise ask you to `rm`, including build output, caches, stray
+  artifacts and scratch files. Cheap to trash, expensive to be wrong.
+- Reverting tracked files through git (`git checkout --`, `git restore`, `git clean`) is a
+  different operation and is fine as-is — but prefer `git stash` over `git clean -fd` when the
+  files aren't reproducible.
+- If trashing genuinely won't work — the target is enormous, on a remote host, or inside a
+  container — say so and ask before falling back to `rm`.
+
+## Searching: ripgrep over grep
+
+Use `rg` instead of `grep` for searching file contents in shell commands. Both `rg` and `fd` are
+installed on every machine (Homebrew on macOS, mise on Linux).
+
+- `rg` skips files listed in `.gitignore`, hidden files and binaries by default. Add `--hidden`,
+  `--no-ignore` or `-uuu` when you need to search those.
+- Use `fd` instead of `find` for finding files by name or type, for
+  example `fd -e md` or `fd -t d config`. Like `rg`, it skips gitignored and hidden files unless
+  given `--hidden` or `--no-ignore`. `rg --files -g '<glob>'` also works for listing files.
+- `fd` does not take `find` syntax. The first argument is a regex pattern and the search path
+  comes second (`fd '\.ts$' src`); use `-g` for a glob, `-x`/`-X` in place of `-exec`, and
+  `--changed-within` in place of `-mtime`. Fall back to `find` for predicates `fd` lacks, such
+  as `-perm` or `-newer`.
+- Plain `grep` is still fine when filtering piped output, such as `ps aux | grep foo`.
