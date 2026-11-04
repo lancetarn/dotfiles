@@ -43,6 +43,7 @@ brew "kerl"                  # Easy building and installing of Erlang/OTP instan
 brew "keyring"               # Access the system keyring service from Python
 brew "kubectx"               # Switch between kubectl contexts easily and create aliases
 brew "kubernetes-cli"        # Kubernetes command-line interface (was pinned @1.22, which is gone upstream — now latest)
+brew "leaf-markdown-viewer"  # Terminal Markdown previewer (runs as leaf)
 brew "mailpit", restart_service: :changed  # Web and API based SMTP testing
 brew "mcp-publisher"         # Publisher CLI for the Model Context Protocol (MCP) Registry
 brew "midnight-commander"    # Terminal-based visual file manager
